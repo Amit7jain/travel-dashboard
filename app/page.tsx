@@ -10,7 +10,7 @@ import {
 
 // --- Sub-Components ---
 
-const SidebarItem = ({ icon: Icon, label, active }) => (
+const SidebarItem = ({ icon: Icon, label, active }: SidebarItemProps) => (
   <motion.div 
     whileHover={{ x: 4 }}
     className={`flex items-center gap-3 px-4 py-3 rounded-xl cursor-pointer transition-colors ${
@@ -22,7 +22,7 @@ const SidebarItem = ({ icon: Icon, label, active }) => (
   </motion.div>
 );
 
-const TripCard = ({ title, location, price, image, isDesign }) => (
+const TripCard = ({ title, location, price, image, isDesign }: TripCardProps) => (
   <motion.div 
     whileHover={{ y: -5 }}
     whileTap={{ scale: 0.98 }}
