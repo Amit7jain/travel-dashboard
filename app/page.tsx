@@ -5,14 +5,41 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Plus, Search, Map, Calendar, Compass, 
   User, Settings, ChevronRight, X, Users, 
-  CreditCard, Sparkles, MapPin
+  CreditCard, Sparkles, MapPin, LucideIcon 
 } from 'lucide-react';
 
-// --- Sub-Components ---
+// --- 1. Interface Definitions (CRITICAL: Do not skip these) ---
+
+interface SidebarItemProps {
+  icon: LucideIcon;
+  label: string;
+  active?: boolean;
+}
+
+interface TripCardProps {
+  title: string;
+  location: string;
+  price?: string;
+  image: string;
+  isDesign?: boolean;
+}
+
+interface Activity {
+  time: string;
+  name: string;
+}
+
+interface TimelineDayProps {
+  day: string;
+  activities: Activity[];
+}
+
+// --- 2. Sub-Components (Using the Interfaces) ---
 
 const SidebarItem = ({ icon: Icon, label, active }: SidebarItemProps) => (
   <motion.div 
     whileHover={{ x: 4 }}
+    whileTap={{ scale: 0.98 }}
     className={`flex items-center gap-3 px-4 py-3 rounded-xl cursor-pointer transition-colors ${
       active ? 'bg-indigo-600 text-white' : 'text-slate-500 hover:bg-slate-100'
     }`}
@@ -35,27 +62,27 @@ const TripCard = ({ title, location, price, image, isDesign }: TripCardProps) =>
     <div className="absolute bottom-4 left-4 z-20 text-white">
       <p className="text-xs font-medium opacity-80 uppercase tracking-wider">{location}</p>
       <h3 className="text-lg font-semibold leading-tight">{title}</h3>
-      {!isDesign && <p className="mt-1 text-sm font-light">From ${price}</p>}
+      {!isDesign && <p className="mt-1 text-sm font-light tracking-wide">From ${price}</p>}
     </div>
   </motion.div>
 );
 
-const TimelineDay = ({ day, activities }) => (
+const TimelineDay = ({ day, activities }: TimelineDayProps) => (
   <div className="flex gap-6 pb-8 border-l-2 border-slate-100 ml-3 relative">
-    <div className="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-indigo-600 border-4 border-white" />
+    <div className="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-indigo-600 border-4 border-white shadow-sm" />
     <div className="flex-1 pl-4">
-      <h4 className="text-sm font-bold text-slate-400 uppercase tracking-widest mb-4">Day {day}</h4>
+      <h4 className="text-sm font-bold text-slate-400 uppercase tracking-widest mb-4 italic">Day {day}</h4>
       <div className="space-y-3">
         {activities.map((act, i) => (
           <div key={i} className="bg-slate-50 p-4 rounded-2xl flex items-center justify-between border border-slate-100">
             <div>
-              <p className="font-semibold text-slate-800">{act.time}</p>
+              <p className="font-semibold text-slate-800 tracking-tight">{act.time}</p>
               <p className="text-sm text-slate-500">{act.name}</p>
             </div>
             <Sparkles size={16} className="text-indigo-400" />
           </div>
         ))}
-        <button className="flex items-center gap-2 text-xs font-semibold text-indigo-600 hover:bg-indigo-50 px-3 py-2 rounded-lg transition-colors">
+        <button className="flex items-center gap-2 text-xs font-bold text-indigo-600 hover:bg-indigo-50 px-3 py-2 rounded-lg transition-all active:scale-95">
           <Plus size={14} /> Add Activity
         </button>
       </div>
